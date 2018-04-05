@@ -36,7 +36,7 @@ script:
   - $SCRIPT_DIR/wine_msys2_wrapper.sh "echo restart"
   - $SCRIPT_DIR/msys2_workaround_bug241.sh
   - MSYS2_HOME=~/.wine/drive_c/$MSYS_ROOT/home/$USER
-  - cp -v $SCRIPT_DIR/* $MSYS2_HOME
+  - cp -vr $SCRIPT_DIR/* $MSYS2_HOME
 #  - $SCRIPT_DIR/wine_msys2_wrapper.sh "./msys2_workaround_bug403.sh"
   - $SCRIPT_DIR/wine_msys2_wrapper.sh "./msys2_update.sh"
   - $SCRIPT_DIR/wine_msys2_wrapper.sh "./build.sh"
