@@ -1,0 +1,43 @@
+
+os:
+  - linux
+
+env:
+  - WINEARCH=win32
+  - WINEARCH=""
+
+cache: apt
+
+before_install:
+  - "export DISPLAY=:99.0"
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 800x600x16"
+
+before_script:
+  - SCRIPT_DIR=$(pwd)
+  - sudo add-apt-repository -y ppa:pipelight/stable
+  - sudo apt-get update -qq
+  - sudo apt-get install -y --install-recommends wine-staging wine-staging-compat
+
+language: c
+
+compiler:
+  - gcc
+
+script:
+  - export MSYS_ROOT=msys32 # msys32 for 32bit msys2, msys64 for 64bit msys2
+  - DISPLAY=:88.0 WINEDEBUG=-all wineboot # hack - wineboot without display
+  - export STAGING_WRITECOPY=1
+  - export MSYSTEM=MSYS
+  - export MSYS="winsymlinks=lnk" # workaround wine staging bug 403
+  - cd ~/.wine/drive_c
+  - wget http://sourceforge.net/projects/msys2/files/Base/i686/msys2-base-i686-20150512.tar.xz
+# - wget http://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-base-x86_64-20150512.tar.xz
+  - tar xf msys2-base-*.tar.xz
+  - $SCRIPT_DIR/wine_msys2_wrapper.sh "echo restart"
+  - $SCRIPT_DIR/msys2_workaround_bug241.sh
+  - MSYS2_HOME=~/.wine/drive_c/$MSYS_ROOT/home/$USER
+  - cp -v $SCRIPT_DIR/* $MSYS2_HOME
+#  - $SCRIPT_DIR/wine_msys2_wrapper.sh "./msys2_workaround_bug403.sh"
+  - $SCRIPT_DIR/wine_msys2_wrapper.sh "./msys2_update.sh"
+  - $SCRIPT_DIR/wine_msys2_wrapper.sh "./build.sh"
+  - $(exit `cat $MSYS2_HOME/exit.number`) # restore exit code from makepkg in build.sh
