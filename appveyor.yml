@@ -18,10 +18,10 @@ init:
 
 install:
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
-  - cmd: >-
-    if %platform%==mingw64630i686 (
-      set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
-      set PYTHON_ROOT=C:\Python27
+  - ps: >-
+    If ($env:platform -Match "mingw64630i686") {
+      $env:PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
+      $env:PYTHON_ROOT=C:\Python27
 
       md c:\projects\gdl\win32libs
       cd c:\projects\gdl\win32libs
@@ -32,8 +32,8 @@ install:
       mingw32-make SHELL=cmd -f makefile.gcc setup_h BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
       mingw32-make SHELL=cmd -f makefile.gcc BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
       cd c:\projects\gdl\win32libs
-      set WXWIDGETS_ROOT=c:\projects\gdl\wxWidgets-3.0.4      
-    )
+      $env:WXWIDGETS_ROOT=c:\projects\gdl\wxWidgets-3.0.4      
+    }
   # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin;%PATH%
   # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
 
