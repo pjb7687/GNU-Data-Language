@@ -75,14 +75,16 @@ install:
         cmake .. -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=c:\projects\gdl\win32libs
         mingw32-make install
         
-        # GNUWin32 (GNU Readline, GSL, Zlib)
+        # GNUWin32 (GNU Readline, GSL, Zlib, libPNG)
         cd c:\projects\gdl\win32libs
         $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/readline/5.0-1/readline-5.0-1-lib.zip", "c:\projects\gdl\win32libs\readline-5.0-1-lib.zip")
         $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/gsl/1.8/gsl-1.8-lib.zip", "c:\projects\gdl\win32libs\gsl-1.8-lib.zip")
         $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/zlib/1.2.3/zlib-1.2.3-lib.zip", "c:\projects\gdl\win32libs\zlib-1.2.3-lib.zip")
+        $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/libpng/1.2.37/libpng-1.2.37-lib.zip", "c:\projects\gdl\win32libs\libpng-1.2.37-lib.zip")
         7z x readline-5.0-1-lib.zip
         7z x gsl-1.8-lib.zip
         7z x zlib-1.2.3-lib.zip
+        7z x libpng-1.2.37-lib.zip
       }
   # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin;%PATH%
   # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
