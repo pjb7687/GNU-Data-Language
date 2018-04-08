@@ -25,6 +25,8 @@ install:
         md c:\projects\gdl\win32libs\lib
         md c:\projects\gdl\win32libs\include
 
+        $webclient = New-Object System.Net.WebClient
+
         # Python
         $env:PYTHON_ROOT="C:\Python27"
         
@@ -45,6 +47,7 @@ install:
         Invoke-WebRequest https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/bsd-xdr/bsd-xdr-1.0.0.tar.gz -OutFile bsd-xdr-1.0.0.tar.gz
         tar zxf bsd-xdr-1.0.0.tar.gz
         cd bsd-xdr-1.0.0
+        dir
         sed -i 's/%hh/%/g' src/test/test_data.c
         mingw32-make -f Makefile uname=MINGW TEST_PROGS=""
         mv mingw/libxdr.dll.a c:\projects\gdl\win32libs\lib
@@ -52,7 +55,7 @@ install:
         
         # PLplot
         cd c:\projects\gdl\win32libs
-        Invoke-WebRequest http://downloads.sourceforge.net/project/plplot/plplot/5.13.0%20Source/plplot-5.13.0.tar.gz -OutFile plplot-5.13.0.tar.gz
+        $webclient.DownloadFile("http://downloads.sourceforge.net/project/plplot/plplot/5.13.0%20Source/plplot-5.13.0.tar.gz", "c:\projects\gdl\win32libs\plplot-5.13.0.tar.gz")
         tar zxf plplot-5.13.0.tar.gz
         md plplot-5.13.0/build
         cd plplot-5.13.0/build
@@ -61,6 +64,7 @@ install:
         mingw32-make install
         
         # Eigen
+        cd c:\projects\gdl\win32libs
         Invoke-WebRequest https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2 -OutFile eigen-eigen-5a0156e40feb.tar.bz2
         tar jxf eigen-eigen-5a0156e40feb.tar.bz2
         md eigen-eigen-5a0156e40feb/build
@@ -70,7 +74,6 @@ install:
         
         # GNUWin32 (GNU Readline, GSL, Zlib)
         cd c:\projects\gdl\win32libs
-        $webclient = New-Object System.Net.WebClient
         $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/readline/5.0-1/readline-5.0-1-lib.zip", "c:\projects\gdl\win32libs\readline-5.0-1-lib.zip")
         $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/gsl/1.8/gsl-1.8-lib.zip", "c:\projects\gdl\win32libs\gsl-1.8-lib.zip")
         $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/zlib/1.2.3/zlib-1.2.3-lib.zip", "c:\projects\gdl\win32libs\zlib-1.2.3-lib.zip")
