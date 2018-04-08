@@ -19,15 +19,11 @@ init:
 install:
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
   - ps: >-
-      [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
-
       if ($env:platform -Match "mingw64630i686") {
         $env:PATH="C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;$env:PATH"
         md c:\projects\gdl\win32libs
         md c:\projects\gdl\win32libs\lib
         md c:\projects\gdl\win32libs\include
-
-        $webclient = New-Object System.Net.WebClient
 
         # Python
         $env:PYTHON_ROOT="C:\Python27"
@@ -46,7 +42,7 @@ install:
 
         # BSD-XDR
         cd c:\projects\gdl\win32libs
-        Invoke-WebRequest https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/bsd-xdr/bsd-xdr-1.0.0.tar.gz -OutFile bsd-xdr-1.0.0.tar.gz
+        appveyor DownloadFile https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/bsd-xdr/bsd-xdr-1.0.0.tar.gz
         tar zxf bsd-xdr-1.0.0.tar.gz
         cd bsd-xdr-1.0.0
         sed -i 's/%hh/%/g' src\test\test_data.c
@@ -58,7 +54,7 @@ install:
         
         # PLplot
         cd c:\projects\gdl\win32libs
-        $webclient.DownloadFile("http://downloads.sourceforge.net/project/plplot/plplot/5.13.0%20Source/plplot-5.13.0.tar.gz", "c:\projects\gdl\win32libs\plplot-5.13.0.tar.gz")
+        appveyor DownloadFile http://downloads.sourceforge.net/project/plplot/plplot/5.13.0%20Source/plplot-5.13.0.tar.gz
         tar zxf plplot-5.13.0.tar.gz
         md plplot-5.13.0/build
         cd plplot-5.13.0/build
@@ -68,7 +64,7 @@ install:
         
         # Eigen
         cd c:\projects\gdl\win32libs
-        Invoke-WebRequest https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2 -OutFile eigen-eigen-5a0156e40feb.tar.bz2
+        appveyor DownloadFile https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2 -FileName eigen-eigen-5a0156e40feb.tar.bz2
         tar jxf eigen-eigen-5a0156e40feb.tar.bz2
         md eigen-eigen-5a0156e40feb/build
         cd eigen-eigen-5a0156e40feb/build
@@ -77,11 +73,11 @@ install:
         
         # GNUWin32 (GNU Readline, GSL, Zlib, libPNG, PCRE)
         cd c:\projects\gdl\win32libs
-        $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/readline/5.0-1/readline-5.0-1-lib.zip", "c:\projects\gdl\win32libs\readline-5.0-1-lib.zip")
-        $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/gsl/1.8/gsl-1.8-lib.zip", "c:\projects\gdl\win32libs\gsl-1.8-lib.zip")
-        $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/zlib/1.2.3/zlib-1.2.3-lib.zip", "c:\projects\gdl\win32libs\zlib-1.2.3-lib.zip")
-        $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/libpng/1.2.37/libpng-1.2.37-lib.zip", "c:\projects\gdl\win32libs\libpng-1.2.37-lib.zip")
-        $webclient.DownloadFile("https://downloads.sourceforge.net/project/gnuwin32/pcre/7.0/pcre-7.0-lib.zip", "c:\projects\gdl\win32libs\pcre-7.0-lib.zip")
+        appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/readline/5.0-1/readline-5.0-1-lib.zip
+        appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/gsl/1.8/gsl-1.8-lib.zip
+        appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/zlib/1.2.3/zlib-1.2.3-lib.zip
+        appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/libpng/1.2.37/libpng-1.2.37-lib.zip
+        appveyor DownloadFile https://downloads.sourceforge.net/project/gnuwin32/pcre/7.0/pcre-7.0-lib.zip
         7z x readline-5.0-1-lib.zip
         7z x gsl-1.8-lib.zip
         7z x zlib-1.2.3-lib.zip
