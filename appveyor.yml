@@ -19,6 +19,7 @@ before_build:
   - cd c:\projects\gdl
   - dir
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
+  - dir C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin
   - if %platform%==mingw64630i686 set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin;%PATH%
   - if %platform%==mingw64630i686 set PYTHON_ROOT=C:\Python27
   # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;%PATH%
@@ -26,7 +27,6 @@ before_build:
 
 build_script:
   - ps: $env:CMAKE_ARGS = '-DEIGEN3_INCLUDE_DIR="C:\projects\eigen-eigen-da9b4e14c255" -DEDITLINE=no -DREADLINE=no'
-
   - md build
   - cd build
   - cmake .. %CMAKE_ARGS% -G "MinGW Makefiles" -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
