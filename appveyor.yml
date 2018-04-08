@@ -35,10 +35,10 @@ install:
         7z x wxWidgets-3.0.4.7z -y -o"wxWidgets-3.0.4"
         cd c:\projects\gdl\win32libs\wxWidgets-3.0.4\build\msw
         mingw32-make SHELL=cmd -f makefile.gcc setup_h BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
-        mingw32-make SHELL=cmd -f makefile.gcc BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
+        mingw32-make SHELL=cmd -f makefile.gcc -j4 BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
         # Below 2 lines are required for wxWidgets-3.0.4, don't know why
         copy c:\projects\gdl\win32libs\wxWidgets-3.0.4\build\msw\gcc_mswudll\coredll_headerctrlg.o c:\projects\gdl\win32libs\wxWidgets-3.0.4\build\msw\gcc_mswudll\coredll_headerctrlgo
-        mingw32-make SHELL=cmd -f makefile.gcc BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
+        mingw32-make SHELL=cmd -f makefile.gcc -j4 BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
         $env:WXWIDGETS_ROOT="c:\projects\gdl\win32libs\wxWidgets-3.0.4"
 
         # BSD-XDR
@@ -49,7 +49,7 @@ install:
         sed -i 's/%hh/%/g' src\test\test_data.c
         md mingw
         md mingw\lib
-        mingw32-make -f Makefile PLATFORM=mingw STAMP=clean TEST_PROGS="" top_srcdir="c:\projects\gdl\win32libs\bsd-xdr-1.0.0" recursive-all
+        mingw32-make -f Makefile -j4 PLATFORM=mingw STAMP=clean TEST_PROGS="" top_srcdir="c:\projects\gdl\win32libs\bsd-xdr-1.0.0" recursive-all
         mv mingw\libxdr.dll.a c:\projects\gdl\win32libs\lib
         mv rpc c:\projects\gdl\win32libs\include
         mv mingw\mgwxdr-0.dll c:\projects\gdl\win32libs\bin
@@ -61,7 +61,7 @@ install:
         md plplot-5.13.0/build
         cd plplot-5.13.0/build
         cmake .. -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=c:\projects\gdl\win32libs
-        mingw32-make
+        mingw32-make -j4
         mingw32-make install
         
         # Eigen
@@ -107,7 +107,7 @@ build_script:
   - set CMAKE_LIBRARY_PATH=c:\projects\gdl\win32libs\lib
   - set CMAKE_INCLUDE_PATH=c:\projects\gdl\win32libs\include
   - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DWXWIDGETSDIR=%WXWIDGETS_ROOT% -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install\gdl -DGRAPHICSMAGICK=OFF -DMAGICK=OFF -DPSLIB=OFF -DNETCDF=OFF -DHDF=OFF -DHDF5=OFF -DFFTW=OFF -DGSHHS=OFF -DPYTHON=OFF
-  - mingw32-make
+  - mingw32-make -j4
   - mingw32-make install
 
 after_build:
