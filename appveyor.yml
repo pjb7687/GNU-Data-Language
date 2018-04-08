@@ -20,10 +20,9 @@ before_build:
   - cd c:\projects\gdl
   - dir
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
-  - dir C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1
-  - if %platform%==mingw64630i686 set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin;%PATH%
+  - if %platform%==mingw64630i686 set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
   - if %platform%==mingw64630i686 set PYTHON_ROOT=C:\Python27
-  # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;%PATH%
+  # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin;%PATH%
   # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
 
 build_script:
