@@ -18,6 +18,7 @@ init:
 
 install:
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
+  - ps: [Net.ServicePointManager]::SecurityProtocol = 'Ssl3, Tls, Tls11, Tls12'
   - ps: >-
       if ($env:platform -Match "mingw64630i686") {
         $env:PATH="C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;$env:PATH"
