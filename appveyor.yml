@@ -47,8 +47,8 @@ install:
         Invoke-WebRequest https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/bsd-xdr/bsd-xdr-1.0.0.tar.gz -OutFile bsd-xdr-1.0.0.tar.gz
         tar zxf bsd-xdr-1.0.0.tar.gz
         cd bsd-xdr-1.0.0
+        sed -i 's/%hh/%/g' src\test\test_data.c
         dir
-        sed -i 's/%hh/%/g' src/test/test_data.c
         mingw32-make -f Makefile uname=MINGW TEST_PROGS=""
         mv mingw/libxdr.dll.a c:\projects\gdl\win32libs\lib
         mv rpc c:\projects\gdl\win32libs\include
