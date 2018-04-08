@@ -24,9 +24,13 @@ install:
       if ($env:platform -Match "mingw64630i686") {
         $env:PATH="C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;$env:PATH"
         md c:\projects\gdl\win32libs
+        md c:\projects\gdl\win32libs\lib
+        md c:\projects\gdl\win32libs\include
 
+        # Python
         $env:PYTHON_ROOT="C:\Python27"
         
+        # WxWidgets
         #cd c:\projects\gdl\win32libs
         #Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.4/wxWidgets-3.0.4.7z -OutFile wxWidgets-3.0.4.7z
         #7z x wxWidgets-3.0.4.7z -y -o"wxWidgets-3.0.4"
@@ -38,16 +42,43 @@ install:
         #mingw32-make SHELL=cmd -f makefile.gcc BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
         #$env:WXWIDGETS_ROOT="c:\projects\gdl\win32libs\wxWidgets-3.0.4"
 
+        # BSD-XDR
         cd c:\projects\gdl\win32libs
         Invoke-WebRequest https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/bsd-xdr/bsd-xdr-1.0.0.tar.gz -OutFile bsd-xdr-1.0.0.tar.gz
         tar zxf bsd-xdr-1.0.0.tar.gz
         cd bsd-xdr-1.0.0
         sed -i 's/%hh/%/g' src/test/test_data.c
+        mingw32-make -f Makefile uname=MINGW TEST_PROGS=""
+        mv mingw/libxdr.dll.a c:\projects\gdl\win32libs\lib
+        mv rpc c:\projects\gdl\win32libs\include
+        
+        # PLplot
+        cd c:\projects\gdl\win32libs
+        Invoke-WebRequest http://downloads.sourceforge.net/project/plplot/plplot/5.13.0%20Source/plplot-5.13.0.tar.gz -OutFile plplot-5.13.0.tar.gz
+        tar zxf plplot-5.13.0.tar.gz
+        md plplot-5.13.0/build
+        cd plplot-5.13.0/build
+        cmake .. -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=c:\projects\gdl\win32libs
         mingw32-make
-        mv mingw/libxdr.dll.a /mingw32/lib/
-        mv rpc /mingw32/include/
+        mingw32-make install
+        
+        # Eigen
+        Invoke-WebRequest https://bitbucket.org/eigen/eigen/get/3.3.4.tar.bz2 -OutFile eigen-eigen-5a0156e40feb.tar.bz2
+        tar jxvf eigen-eigen-5a0156e40feb.tar.bz2
+        md eigen-eigen-5a0156e40feb/build
+        cd eigen-eigen-5a0156e40feb/build
+        cmake .. -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=c:\projects\gdl\win32libs
+        mingw32-make install
+        
+        # GNUWin32 (GNU Readline, GSL, Zlib)
+        cd c:\projects\gdl\win32libs
+        Invoke-WebRequest https://downloads.sourceforge.net/project/gnuwin32/readline/5.0-1/readline-5.0-1-lib.zip -OutFile readline-5.0-1-lib.zip
+        Invoke-WebRequest https://downloads.sourceforge.net/project/gnuwin32/gsl/1.8/gsl-1.8-lib.zip -OutFile gsl-1.8-lib.zip
+        Invoke-WebRequest https://downloads.sourceforge.net/project/gnuwin32/zlib/1.2.3/zlib-1.2.3-lib.zip -OutFile zlib-1.2.3-lib.zip
+        7z x readline-5.0-1-lib.zip
+        7z x gsl-1.8-lib.zip
+        7z x zlib-1.2.3-lib.zip
       }
-  - set CMAKE_ARGS = '-DEIGEN3_INCLUDE_DIR="C:\projects\eigen-eigen-da9b4e14c255" -DEDITLINE=no -DREADLINE=no'
   # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin;%PATH%
   # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
 
@@ -58,9 +89,9 @@ before_build:
 build_script:
   - md build
   - cd build
-  - cmake .. %CMAKE_ARGS% -G "MinGW Makefiles" -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
-
-  - cmake --build . --config Debug
+  - set CMAKE_LIBRARY_PATH=c:\projects\gdl\win32libs\lib
+  - set CMAKE_INCLUDE_PATH=c:\projects\gdl\win32libs\include
+  - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install
   - mingw32-make
   # - cmake --build . --config Release
 
