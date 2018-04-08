@@ -16,14 +16,30 @@ matrix:
 init:
   - git config --global core.autocrlf input
 
+install:
+  - ps: |
+    ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
+    if %platform%==mingw64630i686 (
+      set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
+      set PYTHON_ROOT=C:\Python27
+
+      md c:\projects\gdl\win32libs
+      cd c:\projects\gdl\win32libs
+
+      curl -L https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.4/wxWidgets-3.0.4.7z -o wxWidgets-3.0.4.7z
+      7z x wxWidgets-3.0.4.7z -y -o"wxWidgets-3.0.4" >NUL
+      cd wxWidgets-3.0.4\build\msw
+      mingw32-make SHELL=cmd -f makefile.gcc setup_h BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
+      mingw32-make SHELL=cmd -f makefile.gcc BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
+      cd c:\projects\gdl\win32libs
+      set WXWIDGETS_ROOT=c:\projects\gdl\wxWidgets-3.0.4      
+    )
+  # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin;%PATH%
+  # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
+
 before_build:
   - cd c:\projects\gdl
   - dir
-  - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
-  - if %platform%==mingw64630i686 set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
-  - if %platform%==mingw64630i686 set PYTHON_ROOT=C:\Python27
-  # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw32\bin;%PATH%
-  # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
 
 build_script:
   - ps: $env:CMAKE_ARGS = '-DEIGEN3_INCLUDE_DIR="C:\projects\eigen-eigen-da9b4e14c255" -DEDITLINE=no -DREADLINE=no'
