@@ -19,7 +19,7 @@ init:
 install:
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
   - cmd: >-
-      if %platform%==mingw64630i686 (
+      if "%platform%"=="mingw64630i686" (
         set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
         md c:\projects\gdl\win32libs
         cd c:\projects\gdl\win32libs
