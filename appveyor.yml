@@ -108,7 +108,7 @@ build_script:
   
 deploy:
   release: gdl-0.9.6-build$(appveyor_build_version)
-  description: 'Test release - this file won't work'
+  description: 'Test release'
   provider: GitHub
   auth_token:
     secure: IhTPN2ggVb/gSjAnDAGleGO8+QQJETWjbuNtAvwQcJgEzKcZK944bMDIxSuLASgw
