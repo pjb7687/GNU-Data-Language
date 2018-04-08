@@ -100,7 +100,7 @@ build_script:
   - cd build
   - set CMAKE_LIBRARY_PATH=c:\projects\gdl\win32libs\lib
   - set CMAKE_INCLUDE_PATH=c:\projects\gdl\win32libs\include
-  - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install
+  - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install -DGRAPHICSMAGICK=OFF -DMAGICK=OFF
   - mingw32-make
   # - cmake --build . --config Release
 
