@@ -31,6 +31,7 @@ build_script:
   - cmake .. %CMAKE_ARGS% -G "MinGW Makefiles" -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
 
   - cmake --build . --config Debug
+  - mingw32-make
   # - cmake --build . --config Release
 
   # - ctest -C Debug --output-on-failure
