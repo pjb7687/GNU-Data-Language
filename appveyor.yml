@@ -18,14 +18,12 @@ init:
 
 install:
   - ren "C:\Program Files\Git\usr\bin\sh.exe" _sh.exe
-  - ps: >-
+  - ps: |
     If ($env:platform -Match "mingw64630i686") {
       $env:PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;%PATH%
       $env:PYTHON_ROOT=C:\Python27
-
       md c:\projects\gdl\win32libs
       cd c:\projects\gdl\win32libs
-
       curl -L https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.4/wxWidgets-3.0.4.7z -o wxWidgets-3.0.4.7z
       7z x wxWidgets-3.0.4.7z -y -o"wxWidgets-3.0.4" >NUL
       cd wxWidgets-3.0.4\build\msw
