@@ -18,17 +18,18 @@ init:
 before_build:
   - cd c:\projects\gdl
   - dir
+  - echo %PATH%
   - if %platform%==mingw64630i686 set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin;%PATH%
   - if %platform%==mingw64630i686 set PYTHON_ROOT=C:\Python27
-  - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;%PATH%
-  - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
+  # - if %platform%==mingw64630x8664 set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;%PATH%
+  # - if %platform%==mingw64630x8664 set PYTHON_ROOT=C:\Python27-x64
 
 build_script:
   - ps: $env:CMAKE_ARGS = '-DEIGEN3_INCLUDE_DIR="C:\projects\eigen-eigen-da9b4e14c255" -DEDITLINE=no -DREADLINE=no'
 
   - md build
   - cd build
-  - cmake .. %CMAKE_ARGS% -G "MinGW Makefiles" -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
+  - cmake .. %CMAKE_ARGS% -G "MSYS Makefiles" -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
 
   - cmake --build . --config Debug
   - mingw32-make
