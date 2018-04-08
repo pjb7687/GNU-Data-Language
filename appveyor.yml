@@ -28,7 +28,7 @@ build_script:
 
   - md build
   - cd build
-  - cmake .. %CMAKE_ARGS% -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
+  - cmake .. %CMAKE_ARGS% -G "MinGW Makefiles" -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
 
   - cmake --build . --config Debug
   # - cmake --build . --config Release
