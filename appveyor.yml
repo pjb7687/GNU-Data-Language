@@ -22,6 +22,7 @@ install:
       if ($env:platform -Match "mingw64630i686") {
         $env:PATH="C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin;$env:PATH"
         md c:\projects\gdl\win32libs
+        md c:\projects\gdl\win32libs\bin
         md c:\projects\gdl\win32libs\lib
         md c:\projects\gdl\win32libs\include
 
@@ -47,10 +48,11 @@ install:
         cd bsd-xdr-1.0.0
         sed -i 's/%hh/%/g' src\test\test_data.c
         md mingw
-        md mingw/lib
+        md mingw\lib
         mingw32-make -f Makefile PLATFORM=mingw STAMP=clean TEST_PROGS="" top_srcdir="c:\projects\gdl\win32libs\bsd-xdr-1.0.0" recursive-all
-        mv mingw/libxdr.dll.a c:\projects\gdl\win32libs\lib
+        mv mingw\libxdr.dll.a c:\projects\gdl\win32libs\lib
         mv rpc c:\projects\gdl\win32libs\include
+        mv mingw\mgwxdr-0.dll c:\projects\gdl\win32libs\bin
         
         # PLplot
         cd c:\projects\gdl\win32libs
@@ -96,11 +98,12 @@ build_script:
   - cd build
   - set CMAKE_LIBRARY_PATH=c:\projects\gdl\win32libs\lib
   - set CMAKE_INCLUDE_PATH=c:\projects\gdl\win32libs\include
-  - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install -DGRAPHICSMAGICK=OFF -DMAGICK=OFF -DWXWIDGETS=OFF -DPSLIB=OFF -DNETCDF=OFF -DHDF=OFF -DHDF5=OFF -DFFTW=OFF -DGSHHS=OFF -DPYTHON=OFF
+  - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install\gdl -DGRAPHICSMAGICK=OFF -DMAGICK=OFF -DWXWIDGETS=OFF -DPSLIB=OFF -DNETCDF=OFF -DHDF=OFF -DHDF5=OFF -DFFTW=OFF -DGSHHS=OFF -DPYTHON=OFF
   - mingw32-make
   - mingw32-make install
-  - cd c:\projects\gdl
-  - 7z a gdl_build.zip install
+  - cd c:\projects\gdl\install
+  - robocopy /move /e c:\projects\gdl\win32libs\bin gdl\bin
+  - 7z a gdl_build.zip gdl
   # - cmake --build . --config Release
 
   # - ctest -C Debug --output-on-failure
