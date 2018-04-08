@@ -113,7 +113,7 @@ build_script:
   # - python -c "import gdl; dir(gdl)"
 
 artifacts:
-  - path: gdl_build.zip
+  - path: install\gdl_build.zip
     name: GDL
   
 deploy:
