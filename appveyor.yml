@@ -98,6 +98,9 @@ build_script:
   - set CMAKE_INCLUDE_PATH=c:\projects\gdl\win32libs\include
   - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install -DGRAPHICSMAGICK=OFF -DMAGICK=OFF -DWXWIDGETS=OFF -DPSLIB=OFF -DNETCDF=OFF -DHDF=OFF -DHDF5=OFF -DFFTW=OFF -DGSHHS=OFF -DPYTHON=OFF
   - mingw32-make
+  - mingw32-make install
+  - cd c:\projects\gdl
+  - 7z a gdl_build.zip install
   # - cmake --build . --config Release
 
   # - ctest -C Debug --output-on-failure
@@ -105,6 +108,10 @@ build_script:
 
   # - cmake --build . --target install
   # - python -c "import gdl; dir(gdl)"
+
+artifacts:
+  - path: gdl_build.zip
+    name: GDL
   
 deploy:
   release: gdl-0.9.6-build$(appveyor_build_version)
@@ -112,9 +119,8 @@ deploy:
   provider: GitHub
   auth_token:
     secure: IhTPN2ggVb/gSjAnDAGleGO8+QQJETWjbuNtAvwQcJgEzKcZK944bMDIxSuLASgw
-  artifact: c:\projects\gdl\build\gdl.exe
   draft: false
   prerelease: false
   on:
     branch: master                 # release from master branch only
-    # appveyor_repo_tag: true        # deploy on tag push only
+    appveyor_repo_tag: true        # deploy on tag push only
