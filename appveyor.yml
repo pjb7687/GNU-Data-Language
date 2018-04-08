@@ -101,8 +101,8 @@ build_script:
   - cmake .. -G "MinGW Makefiles" -Wno-dev -DCMAKE_CXX_FLAGS="-std=gnu++11" -DCMAKE_INSTALL_PREFIX:PATH=c:\projects\gdl\install\gdl -DGRAPHICSMAGICK=OFF -DMAGICK=OFF -DWXWIDGETS=OFF -DPSLIB=OFF -DNETCDF=OFF -DHDF=OFF -DHDF5=OFF -DFFTW=OFF -DGSHHS=OFF -DPYTHON=OFF
   - mingw32-make
   - mingw32-make install
+  - robocopy /move /e c:\projects\gdl\win32libs\bin c:\projects\gdl\install\gdl\bin || exit 0
   - cd c:\projects\gdl\install
-  - robocopy /move /e c:\projects\gdl\win32libs\bin gdl\bin || exit 0
   - 7z a gdl_build.zip gdl
   # - cmake --build . --config Release
 
