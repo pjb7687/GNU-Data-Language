@@ -102,7 +102,7 @@ build_script:
   - mingw32-make
   - mingw32-make install
   - cd c:\projects\gdl\install
-  - robocopy /move /e c:\projects\gdl\win32libs\bin gdl\bin
+  - robocopy /move /e c:\projects\gdl\win32libs\bin gdl\bin || exit 0
   - 7z a gdl_build.zip gdl
   # - cmake --build . --config Release
 
