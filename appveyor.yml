@@ -31,7 +31,7 @@ install:
         
         # WxWidgets
         cd c:\projects\gdl\win32libs
-        Invoke-WebRequest https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.4/wxWidgets-3.0.4.7z -OutFile wxWidgets-3.0.4.7z
+        appveyor DownloadFile https://github.com/wxWidgets/wxWidgets/releases/download/v3.0.4/wxWidgets-3.0.4.7z
         7z x wxWidgets-3.0.4.7z -y -o"wxWidgets-3.0.4"
         cd c:\projects\gdl\win32libs\wxWidgets-3.0.4\build\msw
         mingw32-make SHELL=cmd -f makefile.gcc setup_h BUILD=release SHARED=1 USE_GUI=1 USE_XRC=0 USE_HTML=0 USE_WEBVIEW=0 USE_MEDIA=0 USE_AUI=0 USE_RIBBON=0 USE_PROPGRID=0 USE_RICHTEXT=0 USE_STC=0 USE_OPENGL=0 VENDOR=gdl DEBUG_FLAG=0
@@ -60,7 +60,7 @@ install:
         tar zxf plplot-5.13.0.tar.gz
         md plplot-5.13.0/build
         cd plplot-5.13.0/build
-        cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS_RELEASE='-O3' -DCMAKE_INSTALL_PREFIX=c:\projects\gdl\win32libs -DOLD_WXWIDGETS:BOOL=ON -DwxWidgets_LIB_DIR=%WXWIDGETS_ROOT%/lib/gcc_dll -DwxWidgets_CONFIGURATION=mswu -DENABLE_MIX_CXX=ON
+        cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS_RELEASE='-O3' -DCMAKE_INSTALL_PREFIX=c:\projects\gdl\win32libs -DOLD_WXWIDGETS:BOOL=ON -DwxWidgets_LIB_DIR=%WXWIDGETS_ROOT%\lib\gcc_dll -DwxWidgets_CONFIGURATION=mswu -DENABLE_MIX_CXX=ON
         mingw32-make -j4
         mingw32-make install
         
