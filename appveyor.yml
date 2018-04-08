@@ -1,0 +1,44 @@
+branches:
+  only:
+    - master
+clone_folder: c:\projects\gdl
+configuration:
+  - Release
+  - Debug
+environment:
+  matrix:
+  - platform: mingw64630i686
+  - platform: mingw64630x8664
+matrix:
+  fast_finish: true
+  
+init:
+  - git config --global core.autocrlf input
+
+before_build:
+  - cd c:\projects\gdl
+  - dir
+  - if %platform%==mingw64630i686 (
+      set PATH=C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\bin;%PATH%
+      set PYTHON_ROOT=C:\Python27
+    )
+  - if %platform%==mingw64630x8664 (
+      set PATH=C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\bin;%PATH%
+      set PYTHON_ROOT=C:\Python27-x64
+    )
+
+build_script:
+  - ps: $env:CMAKE_ARGS = '-DEIGEN3_INCLUDE_DIR="C:\projects\eigen-eigen-da9b4e14c255" -DEDITLINE=no -DREADLINE=no'
+
+  - md build
+  - cd build
+  - cmake .. %CMAKE_ARGS% -DPYTHON_EXECUTABLE=%PYTHON_ROOT%\python.exe -DPYTHON_INCLUDE_DIR=%PYTHON_ROOT%\include
+
+  - cmake --build . --config Debug
+  # - cmake --build . --config Release
+
+  # - ctest -C Debug --output-on-failure
+  # - ctest -C Release --output-on-failure
+
+  # - cmake --build . --target install
+  # - python -c "import gdl; dir(gdl)"
