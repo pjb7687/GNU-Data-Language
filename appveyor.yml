@@ -49,7 +49,7 @@ install:
         cd bsd-xdr-1.0.0
         sed -i 's/%hh/%/g' src\test\test_data.c
         dir
-        mingw32-make -f Makefile uname=MINGW TEST_PROGS=""
+        mingw32-make -f Makefile PLATFORM=mingw STAMP=clean TEST_PROGS="" top_srcdir="c:\projects\gdl\win32libs\bsd-xdr-1.0.0" recursive-all
         mv mingw/libxdr.dll.a c:\projects\gdl\win32libs\lib
         mv rpc c:\projects\gdl\win32libs\include
         
