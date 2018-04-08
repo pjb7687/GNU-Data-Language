@@ -5,7 +5,7 @@ branches:
 clone_folder: c:\projects\gdl
 configuration:
   - Release
-  - Debug
+  # - Debug
 environment:
   matrix:
   - platform: mingw64630i686
@@ -105,3 +105,16 @@ build_script:
 
   # - cmake --build . --target install
   # - python -c "import gdl; dir(gdl)"
+  
+deploy:
+  release: gdl-0.9.6-build$(appveyor_build_version)
+  description: 'Test release - this file won't work'
+  provider: GitHub
+  auth_token:
+    secure: IhTPN2ggVb/gSjAnDAGleGO8+QQJETWjbuNtAvwQcJgEzKcZK944bMDIxSuLASgw
+  artifact: c:\projects\gdl\build\gdl.exe
+  draft: false
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: true        # deploy on tag push only
